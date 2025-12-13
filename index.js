@@ -13,6 +13,10 @@ mongoose.connect(process.env.MONGO_URI)
 .catch((err) => console.error('MongoDB connection error:', err));
 
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/cards', require('./routes/cardRoutes'));
+app.use("/api/orders", require("./routes/orderRoutes"));
+
+
 
 // Example route
 app.get('/', (req, res) => {

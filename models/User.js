@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   dateOfBirth: Date,
   gender: String,
   termsAccepted: Boolean,
-  role: { type: String, enum: ['user', 'admin'], default: 'user' }, // <-- admin or user
+  role: { type: String, enum: ['user', 'admin'], default: 'user' }, //admin or user
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

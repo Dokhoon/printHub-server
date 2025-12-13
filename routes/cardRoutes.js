@@ -1,43 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Card = require('../models/Card');
-const adminAuth = require('../middleware/auth'); // Only admins
+const cardController = require("../controllers/cardController");
+const authenticate = require("../middleware/authMiddleware");
 
-// Create a new card
-router.post('/', adminAuth, async (req, res) => {
-  try {
-    const newCard = new Card(req.body);
-    await newCard.save();
-    res.status(201).json(newCard);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+router.get("/test", (req, res) => res.send("Card routes are working"));
 
-// Get all cards (admin can see all)
-router.get('/', adminAuth, async (req, res) => {
-  const cards = await Card.find();
-  res.json(cards);
-});
+router.get("/", cardController.getCards);
+router.post("/", cardController.createCard);
+router.put("/:id", cardController.updateCard);
+router.delete("/:id", cardController.deleteCard);
+router.post("/check", cardController.checkStock);
+router.get("/search", cardController.searchCards);
 
-// Update card
-router.put('/:id', adminAuth, async (req, res) => {
-  try {
-    const updatedCard = await Card.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updatedCard);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
-
-// Delete card
-router.delete('/:id', adminAuth, async (req, res) => {
-  try {
-    await Card.findByIdAndDelete(req.params.id);
-    res.json({ message: "Card deleted" });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
 
 module.exports = router;

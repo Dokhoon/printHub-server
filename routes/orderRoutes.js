@@ -1,10 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { getOrders, createOrder, updateOrder, deleteOrder } = require('../controllers/orderController');
+const authenticate = require("../middleware/authMiddleware");
 
-router.get('/', getOrders);
-router.post('/', createOrder);
-router.put('/:id', updateOrder);
-router.delete('/:id', deleteOrder);
+// Destructure the exported functions from orderController
+const { confirmOrder, getOrders } = require("../controllers/orderController");
+
+// POST /api/orders/order → confirm an order (requires authentication)
+router.post("/order", authenticate, confirmOrder);
+
+// GET /api/orders/ → get all orders (no authentication here, add auth if needed)
+router.get("/", getOrders);
 
 module.exports = router;
