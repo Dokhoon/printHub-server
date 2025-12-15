@@ -71,7 +71,11 @@ const searchCards = async (req, res) => {
     const query = req.query.q || "";
 
     const results = await Card.find({
-      title: { $regex: query, $options: "i" }  
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } },
+        { category: { $regex: query, $options: "i" } }, 
+      ],
     });
 
     res.json(results);
@@ -79,6 +83,7 @@ const searchCards = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 
 module.exports = {
