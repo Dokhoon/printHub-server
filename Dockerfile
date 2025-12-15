@@ -1,9 +1,18 @@
-# server-side/Dockerfile
+# Use Node.js LTS image
+FROM node:20
 
-FROM node:18
+# Set working directory
 WORKDIR /app
+
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
+
+# Copy source code
 COPY . .
+
+# Expose port (must match docker-compose)
 EXPOSE 5000
-CMD ["npm", "start"]
+
+# Start the server
+CMD ["node", "index.js"]

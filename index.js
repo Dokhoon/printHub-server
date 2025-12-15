@@ -4,7 +4,15 @@ require('dotenv').config();
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://printhub-client.onrender.com" // your frontend URL
+    ],
+    credentials: true
+  })
+);
 app.use(express.json());
 
 // MongoDB Connectionk
